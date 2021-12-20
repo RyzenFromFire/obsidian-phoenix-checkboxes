@@ -1,4 +1,4 @@
-# RyzenCheckboxes
+# Ryzen Checkboxes
 CSS Snippet for checkboxes in [Obsidian](https://obsidian.md).
 
 Modified from [Nicer Checkboxes by kepano and rsdimitrov](https://github.com/kmaasrud/awesome-obsidian#nicer-checkboxes), [deathau's checkboxes](https://github.com/deathau/obsidian-snippets/blob/main/checkbox.css), and [SIRvb's ITS checkboxes](https://github.com/SlRvb/Obsidian--ITS-Theme/blob/main/S%20-%20Checkboxes.css).
