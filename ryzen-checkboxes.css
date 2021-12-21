@@ -80,7 +80,7 @@ Five types of checks (these are directly from the latter snippet)
 
 .markdown-preview-view ul>li.task-list-item {
   font-weight: normal;
-  color: var(--text-normal);
+  /*color: var(--text-normal);*/ /* enabling this caused unchecked sub-items of checked parents to appear white (--text-normal) */
 }
 
 /* SVG check mark for done ('- [x]') */
