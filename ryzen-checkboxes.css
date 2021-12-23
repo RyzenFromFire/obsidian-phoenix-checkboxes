@@ -1,5 +1,6 @@
 /* RyzenCheckboxes by RyzenFromFire */
-/* Modified from: */
+
+/* Inspired by (some minor code reuse): */
 
 /* nicer checkboxes: */
 /* get more snippets at https://github.com/kmaasrud/awesome-obsidian */
@@ -9,205 +10,164 @@
 /* checkbox, which I found here: */
 /* https://github.com/deathau/obsidian-snippets/blob/main/checkbox.css */
 
-/* and some elements from SIRvb's checkboxes snippet: */
+/* and SlRvb's checkboxes snippet: */
 /* https://github.com/SlRvb/Obsidian--ITS-Theme/blob/main/S%20-%20Checkboxes.css */
+
+/* Using RemixIcon Font: https://remixicon.com */
 
 /*
 Five types of checks (these are directly from the latter snippet)
 [x] Default
-[>] Deferred or scheduled task
+[>] Deferred or rescheduled task (no strikethrough in preview)
 [/] Half Done Task (no strikethrough in preview)
 [-] Cancelled task
 [?] Need more info to complete task (no strikethrough in preview)
 [!] Important task (no strikethrough in preview)
 */
 
-
 :root {
-  --base-color: #e6570d; /* base color for a checked box, used for default check and  */
+  --base-color: #e6570d; /* base color for a checked box, used for default check and > */
   --cancelled-color: #9a9a9a;
   --info-color: #ff930a;
   --important-color: #cc0000;
 }
 
-/* Editing Mode: Replace text markdown checkboxes with circles to be filled */
-/* this is off until live preview comes out
-.markdown-source-view .cm-formatting-task {
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 50%;
-  border: 1px solid var(--text-faint);
-  padding: 0;
+/* override standard markdown formatting */
+/* this section (specifically, the :not's) determine which types of check get strikethrough and which do not */
+.markdown-source-view.mod-cm6 .HyperMD-task-line[data-task]:not([data-task=" "]):not([data-task="x"]):not([data-task="X"]):not([data-task="-"]) {
+    text-decoration: none;
+    color: var(--text-normal);
 }
-.cm-s-obsidian span.cm-formatting-task {
-  color: transparent;
-  width: 1.25em !important;
-  height: 1.25em !important;
-  display: inline-block;
-  vertical-align: 0%;
-}*/
 
-/* Set up base for preview view */
-.markdown-preview-view .task-list-item-checkbox {
+ul > li.task-list-item.is-checked:not([data-task=" "]):not([data-task="x"]):not([data-task="X"]):not([data-task="-"]) {
+    text-decoration: none;
+    color: var(--text-normal);
+}
+
+/* Set up base border */
+input.task-list-item-checkbox {
   -webkit-appearance: none;
   box-sizing: border-box;
   border: 1px solid var(--text-faint);
-  border-radius: 50%;
+  border-radius: 50%; /* ensure circular checkboxes */
   cursor: pointer;
-  width: 1.5em !important;
-  height: 1.5em !important;
+  width: 1.5em;
+  height: 1.5em;
   filter:none; /* this is very important, otherwise colors will display incorrectly */
   display: inline-block;
+}
+
+/* Proper vertical alignment for editing and preview/reading mode respectively */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox {
+  vertical-align: -48%; /* -51 */
+}
+
+.markdown-preview-view .task-list-item-checkbox {
   vertical-align: -31%;
 }
 
-.markdown-preview-view .task-list-item-checkbox:checked {
+/* Set up default background */
+input[data-task='x'].task-list-item-checkbox:checked,
+input[data-task='X'].task-list-item-checkbox:checked,
+input[data-task='>'].task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='x'] > .task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='X'] > .task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='>'] > .task-list-item-checkbox:checked {
   border: none;
   background-color: var(--base-color);
 }
 
-/* Sets up proper text formatting */
-.markdown-preview-view .task-list-item-checkbox:checked::before {
-  position: absolute;
-  color: white;
-  text-align: center;
-  font-weight: 800; /* was 900, might look better that way */
-  line-height: 15px;
-  width:12px;
-  left:2px;
-  right:2px;
+/* Other Backgrounds */
+input[data-task='-'].task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='-'] > .task-list-item-checkbox:checked {
+  border: none;
+  background-color: var(--cancelled-color);
 }
 
-.markdown-preview-view ul>li.task-list-item {
-  font-weight: normal;
-  /*color: var(--text-normal);*/ /* enabling this caused unchecked sub-items of checked parents to appear white (--text-normal) */
+
+input[data-task='?'].task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='?'] > .task-list-item-checkbox:checked {
+  border: none;
+  background-color: var(--info-color);
 }
 
-/* SVG check mark for done ('- [x]') */
-/*.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task='x']::before,*/
-.markdown-preview-view li[data-task="x"]>.task-list-item-checkbox:checked::before,
-.markdown-preview-view li[data-task="X"]>.task-list-item-checkbox:checked::before {
-  content: ' ';
-  top: 20%;
-  bottom: 20%;
-  left: 20%;
-  background-color: white;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpolygon points='5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039'%3E%3C/polygon%3E%3C/svg%3E");
-}
-
-/* Done, editor view *//*
- {
-  /*
-  content: ' ';
-  top: 20%;
-  bottom: 20%;
-  left: 20%;
-  background-color: white;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpolygon points='5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039'%3E%3C/polygon%3E%3C/svg%3E");
-  */
-
-  /*
-  background-color: var(--base-color);
-  border: 1px solid var(--base-color);
-  background-position: center;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-image: url('data:image/svg+xml; utf8, <svg width="12px" height="10px" viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-4.000000, -6.000000)" fill="%23ffffff"><path d="M8.1043257,14.0367999 L4.52468714,10.5420499 C4.32525014,10.3497722 4.32525014,10.0368095 4.52468714,9.8424863 L5.24777413,9.1439454 C5.44721114,8.95166768 5.77142411,8.95166768 5.97086112,9.1439454 L8.46638057,11.5903727 L14.0291389,6.1442083 C14.2285759,5.95193057 14.5527889,5.95193057 14.7522259,6.1442083 L15.4753129,6.84377194 C15.6747499,7.03604967 15.6747499,7.35003511 15.4753129,7.54129009 L8.82741268,14.0367999 C8.62797568,14.2290777 8.3037627,14.2290777 8.1043257,14.0367999"></path></g></g></svg>');
-  */
-
-  /*
-  color: var(--base-color, var(--important-color));
-  content: "X";
-  */
-/*}
-
-/* SVG Chevron for deferred task ('- [>]') */
-.markdown-preview-view li[data-task=">"]>.task-list-item-checkbox:checked::before {
-  content: '';
-  top: 20%;
-  bottom: 20%;
-  left: 20%;
-  background-color: white;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.12 7L3.26667 11.76L4.57333 13.0667L10.7333 7L4.57333 0.933332L3.26667 2.24L8.12 7Z'/%3E%3C/svg%3E");
-}
-
-/* text style for deferred task ('- [>]') */
-.markdown-preview-view ul>li[data-task=">"].task-list-item.is-checked {
-  color: var(--text-normal);
-  text-decoration: none;
-}
-
-/* border for half-done task ('- [/]') */
-.markdown-preview-view li[data-task="/"]>.task-list-item-checkbox:checked {
-  border: 1px solid var(--text-faint);
-  border-radius: 50%;
-  background-color: transparent;
+input[data-task='!'].task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='!'] > .task-list-item-checkbox:checked {
+  border: none;
+  background-color: var(--important-color);
 }
 
 /* semicircle for half-done task ('- [/]') */
+/* preview mode */
 .markdown-preview-view li[data-task="/"]>.task-list-item-checkbox:checked::before {
-  content: '';
+  content: ' ';
   position: absolute;
   top: 0%;
   left: -25%;
-  transform: translate(-50%, -50%);
   height: 0.8em;
   width: 1.53em;
   border-radius: 150px 150px 0 0;
   background-color: var(--base-color);
   transform: rotate(-45deg);
 }
-
-/* text style for half-done task ('- [/]') */
-.markdown-preview-view ul>li[data-task="/"].task-list-item.is-checked {
-  color: var(--text-normal);
-  text-decoration: none;
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="/"]::before {
+  content: ' ';
+  position: absolute;
+  height: 0.8em;
+  width: 1.53em;
+  border-radius: 150px 150px 0 0;
+  background-color: var(--base-color);
+  transform: translate(-24%, 3%) rotate(-45deg);
 }
 
-/* SVG line for cancelled/non-task ('- [-]') */
+/* check mark for done ('- [x]') */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="x"]::before,
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="X"]::before,
+.markdown-preview-view li[data-task="x"]>.task-list-item-checkbox:checked::before,
+.markdown-preview-view li[data-task="X"]>.task-list-item-checkbox:checked::before {
+  font-family: "remixicon";
+  content: "\eb7a"; /* ri-check-fill */
+  color: white;
+  position: absolute;
+  transform: scale(1.33) translate(18%, 17%);
+}
+
+/* chevron/> for deferred ('- [>]') */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task=">"]::before,
+.markdown-preview-view li[data-task=">"]>.task-list-item-checkbox:checked::before {
+  font-family: "remixicon";
+  content: "\ea6e"; /* ri-arrow-right-s-line */
+  color: white;
+  position: absolute;
+  transform: scale(1.5) translate(19%, 13%);
+}
+
+/* - for cancelled ('- [-]') */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="-"]::before,
 .markdown-preview-view li[data-task="-"]>.task-list-item-checkbox:checked::before {
-  content: '';
-  top: 20%;
-  bottom: 20%;
-  left: 20%;
-  background-color: white;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.5' y='6.5' width='13' height='1'/%3E%3C/svg%3E");
-}
-/* greyed-out background colour for cancelled/non-task ('- [-]') */
-.markdown-preview-view li[data-task="-"]>.task-list-item-checkbox:checked {
-  background-color: var(--text-faint);
+  font-family: "remixicon";
+  content: "\f1ae"; /* ri-subtract-fill */
+  color: white;
+  position: absolute;
+  transform: scale(1.33) translate(19.5%, 17%);
 }
 
-/* '?' for question/more info task ('- [?]') */
+/* ? for more info ('- [?]') */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="?"]::before,
 .markdown-preview-view li[data-task="?"]>.task-list-item-checkbox:checked::before {
-  top: 10%;
-  left: 18%;
-  content: '?';
-  text-align: center;
-}
-/* text style for question/more info task ('- [?]') */
-.markdown-preview-view ul>li[data-task="?"].task-list-item.is-checked {
-  color: var(--text-normal);
-  text-decoration: none;
-}
-/* yellow background colour for question/more info task ('- [?]') */
-.markdown-preview-view li[data-task="?"]>.task-list-item-checkbox:checked{
-  background-color: var(--info-color);
+  font-family: "remixicon";
+  content: "\f046"; /* ri-question-mark */
+  color: white;
+  position: absolute;
+  transform: scale(1) translate(20.5%, 25%);
 }
 
-/* '!' for important task ('- [!]') */
+/* ! for important ('- [!]') */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="!"]::before,
 .markdown-preview-view li[data-task="!"]>.task-list-item-checkbox:checked::before {
-  top: 10%;
-  left: 18%;
-  content: '!';
-}
-/* text style for important task ('- [!]') */
-.markdown-preview-view ul>li[data-task="!"].task-list-item.is-checked {
-  color: var(--text-normal);
-  text-decoration: none;
-  /*font-weight: 700;*/
-}
-/* red background colour for important task ('- [!]') */
-.markdown-preview-view li[data-task="!"]>.task-list-item-checkbox:checked {
-  background-color: var(--important-color);
+  font-family: "remixicon";
+  content: "!";
+  color: white;
+  position: absolute;
+  transform: scale(1.42) translate(5.5px, 0px);
 }
