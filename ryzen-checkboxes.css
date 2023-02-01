@@ -16,13 +16,15 @@
 /* Using RemixIcon Font: https://remixicon.com */
 
 /*
-Five types of checks (these are directly from the latter snippet)
+Check Types
 [x] Default
 [>] Deferred or rescheduled task (no strikethrough in preview)
 [/] Half Done Task (no strikethrough in preview)
 [-] Cancelled task
 [?] Need more info to complete task (no strikethrough in preview)
 [!] Important task (no strikethrough in preview)
+[*] or [f] Focus Task (no strikethrough in preview)
+[s] or [5] Short Task (no strikethrough in preview)
 */
 
 :root {
@@ -30,6 +32,7 @@ Five types of checks (these are directly from the latter snippet)
   --cancelled-color: #9a9a9a;
   --info-color: #ff930a;
   --important-color: #cc0000;
+  --focus-color: #35af80;
 }
 
 /* override standard markdown formatting */
@@ -51,19 +54,26 @@ input.task-list-item-checkbox {
   border: 1px solid var(--text-faint);
   border-radius: 50%; /* ensure circular checkboxes */
   cursor: pointer;
-  width: 1.5em;
-  height: 1.5em;
+  /*width: 15.8pt;
+  height: 15.5pt;*/
+  width: 21px;
+  height: 21px;
   filter:none; /* this is very important, otherwise colors will display incorrectly */
   display: inline-block;
 }
 
 /* Proper vertical alignment for editing and preview/reading mode respectively */
 .markdown-source-view.mod-cm6 .task-list-item-checkbox {
-  vertical-align: -48%; /* -51 */
+  vertical-align: -36%;
 }
 
 .markdown-preview-view .task-list-item-checkbox {
-  vertical-align: -31%;
+  vertical-align: -16%;
+}
+
+/* Remove new checkmarks in ::after in Obsidian 1.0.0 */
+input[type=checkbox]:checked:after {
+  background-color: transparent;
 }
 
 /* Set up default background */
@@ -97,28 +107,50 @@ input[data-task='!'].task-list-item-checkbox:checked,
   background-color: var(--important-color);
 }
 
+input[data-task='*'].task-list-item-checkbox:checked,
+input[data-task='f'].task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='*'] > .task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='f'] > .task-list-item-checkbox:checked {
+  border: none;
+  background-color: var(--focus-color);
+}
+
+input[data-task='s'].task-list-item-checkbox:checked,
+input[data-task='5'].task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='s'] > .task-list-item-checkbox:checked,
+.markdown-preview-view li[data-task='5'] > .task-list-item-checkbox:checked {
+  border: none;
+  background-color: var(--info-color);
+}
+
 /* semicircle for half-done task ('- [/]') */
 /* preview mode */
+.markdown-preview-view li[data-task="/"]>.task-list-item-checkbox:checked,
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="/"] {
+    background-color: transparent;
+    border-color: var(--text-faint) !important;
+}
 .markdown-preview-view li[data-task="/"]>.task-list-item-checkbox:checked::before {
   content: ' ';
   position: absolute;
-  top: 0%;
-  left: -25%;
+  top: 1%;
+  left: -21%;
   height: 0.8em;
-  width: 1.53em;
+  width: 1.55em;
   border-radius: 150px 150px 0 0;
-  background-color: var(--base-color);
+  background-color: var(--base-color) !important;
   transform: rotate(-45deg);
 }
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="/"]::before {
   content: ' ';
   position: absolute;
   height: 0.8em;
-  width: 1.53em;
+  width: 1.55em;
   border-radius: 150px 150px 0 0;
   background-color: var(--base-color);
-  transform: translate(-24%, 3%) rotate(-45deg);
+  transform: translate(-21%, 8%) rotate(-45deg);
 }
+
 
 /* check mark for done ('- [x]') */
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="x"]::before,
@@ -129,7 +161,7 @@ input[data-task='!'].task-list-item-checkbox:checked,
   content: "\eb7a"; /* ri-check-fill */
   color: white;
   position: absolute;
-  transform: scale(1.33) translate(18%, 17%);
+  transform: scale(1.4) translate(20%, 25%);
 }
 
 /* chevron/> for deferred ('- [>]') */
@@ -139,7 +171,7 @@ input[data-task='!'].task-list-item-checkbox:checked,
   content: "\ea6e"; /* ri-arrow-right-s-line */
   color: white;
   position: absolute;
-  transform: scale(1.5) translate(19%, 13%);
+  transform: scale(1.6) translate(21%, 1.7pt);
 }
 
 /* - for cancelled ('- [-]') */
@@ -149,7 +181,7 @@ input[data-task='!'].task-list-item-checkbox:checked,
   content: "\f1ae"; /* ri-subtract-fill */
   color: white;
   position: absolute;
-  transform: scale(1.33) translate(19.5%, 17%);
+  transform: scale(1.4) translate(20%, 26%);
 }
 
 /* ? for more info ('- [?]') */
@@ -159,7 +191,7 @@ input[data-task='!'].task-list-item-checkbox:checked,
   content: "\f046"; /* ri-question-mark */
   color: white;
   position: absolute;
-  transform: scale(1) translate(20.5%, 25%);
+  transform: scale(1) translate(32%, 27%);
 }
 
 /* ! for important ('- [!]') */
@@ -169,5 +201,31 @@ input[data-task='!'].task-list-item-checkbox:checked,
   content: "!";
   color: white;
   position: absolute;
-  transform: scale(1.42) translate(5.5px, 0px);
+  transform: scale(1.5) translate(123%, 4%);
+  /*transform: scale(1.42) translate(5.5px, 0px);*/
+}
+
+/* focus */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="*"]::before,
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="f"]::before,
+.markdown-preview-view li[data-task="*"]>.task-list-item-checkbox:checked::before,
+.markdown-preview-view li[data-task="f"]>.task-list-item-checkbox:checked::before {
+  font-family: "remixicon";
+  content: "\f186"; /* star */
+  color: white;
+  position: absolute;
+  transform: scale(1) translate(33%, 33%);
+}
+
+/* short/5min */
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="s"]::before,
+.markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="5"]::before,
+.markdown-preview-view li[data-task="s"]>.task-list-item-checkbox:checked::before,
+.markdown-preview-view li[data-task="5"]>.task-list-item-checkbox:checked::before  {
+  font-family: "remixicon";
+  content: "\ed3c"; /* flashlight */
+  color: white;
+  position: absolute;
+  /*transform: scale(1.1) translate(24%, 27%);*/
+  transform: scale(1.09) translate(25%, 28%);
 }
