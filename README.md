@@ -1,5 +1,7 @@
-# Ryzen Checkboxes
-CSS Snippet for checkboxes in [Obsidian](https://obsidian.md). Built against v0.13.14, Live Preview recommended.
+# Phoenix Checkboxes
+CSS Snippet for checkboxes in [Obsidian](https://obsidian.md).
+
+Compatibility: Obsidian v1.1.9
 
 [RemixIcon font](https://remixicon.com) required (otherwise the checkmarks will just be placeholder boxes).
 
