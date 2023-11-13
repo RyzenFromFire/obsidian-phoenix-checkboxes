@@ -243,7 +243,7 @@ working selectors for checkboxes in callouts in live preview mode:
   content: "\f186"; /* star */
   color: white;
   position: absolute;
-  transform: scale(1) translate(28%, 18%);
+  transform: scale(1) translate(28%, 2.5pt);
 }
 
 .cm-embed-block .callout .callout-content li[data-task="*"]>.task-list-item-checkbox:checked::before,
