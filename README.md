@@ -1,7 +1,7 @@
 # Phoenix Checkboxes
 CSS Snippet for checkboxes in [Obsidian](https://obsidian.md).
 
-Compatibility: Obsidian v1.1.9
+Compatibility: Obsidian v1.6.5
 
 [RemixIcon font](https://remixicon.com) required (otherwise the checkmarks will just be placeholder boxes).
 
