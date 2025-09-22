@@ -62,7 +62,7 @@ input.task-list-item-checkbox {
   height: 15.5pt;*/
   width: 21px;
   height: 21px;
-  filter:none; /* this is very important, otherwise colors will display incorrectly */
+  filter: none; /* this is very important, otherwise colors will display incorrectly */
   display: inline-block;
 }
 
@@ -73,6 +73,43 @@ input.task-list-item-checkbox {
 
 .markdown-preview-view .task-list-item-checkbox {
   vertical-align: -15%;
+}
+
+/* Indentation and horizontal alignment fixes */
+  /* reduce indentation of checkboxes */
+.markdown-source-view.mod-cm6 .task-list-label .task-list-item-checkbox {
+  margin-inline-start: 0.3em !important;
+}
+
+  /* add a tiny bit of space to bullet lists to align with phoenix checkboxes at the same level */
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line .list-bullet {
+  margin-inline-start: 0.43em !important; 
+}
+
+  /* fix checkbox indentation in callouts */
+.markdown-source-view.mod-cm6 .callout-content > ul .task-list-item {
+  --list-indent: -0.8em !important;
+}
+
+  /* should align centers of checkbox and bullet */
+.markdown-source-view.mod-cm6 .callout-content > ul.contains-task-list > li.task-list-item {
+  margin-inline-start: 0.1em !important; 
+}
+
+  /* this is present in phoenix main theme.css, so commented out here */
+  /* it fixes an issue that, due to another selector there, misaligns bullets with a checkbox
+    on the same level and bullets without a checkbox on the same level. */
+/*
+.markdown-source-view.mod-cm6 .markdown-rendered .callout-content ul, 
+.markdown-source-view.mod-cm6 .markdown-rendered .callout-content ol {
+  padding-inline-start: 0em !important;
+} */
+
+
+
+/* reduce indent depth on preview mode to bring it more in line with live preview */
+.markdown-preview-view {
+  --list-indent: 0.33em;
 }
 
 /* Remove new checkmarks in ::after in Obsidian 1.0.0 */
