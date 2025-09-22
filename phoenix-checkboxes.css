@@ -253,7 +253,7 @@ working selectors for checkboxes in callouts in live preview mode:
   transform: scale(1.6) translate(19%, 0.8pt)
 }
 
-/* - for cancelled ('- [-]') and _ for con ('- [_]') */
+/* - for cancelled ('- [-]') and _ for con ('- [–]') */
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="-"]::before,
 .markdown-preview-view li[data-task="-"]>.task-list-item-checkbox:checked::before,
 .cm-embed-block .callout .callout-content li[data-task="-"]>.task-list-item-checkbox:checked::before,
@@ -264,7 +264,7 @@ working selectors for checkboxes in callouts in live preview mode:
   content: "\f1ae"; /* ri-subtract-fill */
   color: white;
   position: absolute;
-  transform: scale(1.42) translate(19%, 15%);
+  transform: scale(1.42, 1.82) translate(19%, 16%);
 }
 
 /* ? for more info ('- [?]') */
@@ -286,10 +286,10 @@ working selectors for checkboxes in callouts in live preview mode:
   content: "!";
   color: white;
   position: absolute;
-  transform: scale(1.3) translate(160%, 8%);
+  transform: scale(1.4, 1.3) translate(145%, 9%);
 }
 
-/* focus */
+/* * for focus ('- [f]') */
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="*"]::before,
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="f"]::before,
 .markdown-preview-view li[data-task="*"]>.task-list-item-checkbox:checked::before,
@@ -300,15 +300,16 @@ working selectors for checkboxes in callouts in live preview mode:
   content: "\f186"; /* star */
   color: white;
   position: absolute;
-  transform: scale(1) translate(28%, 2.5pt);
+  transform: scale(1.05, 1) translate(27%, 2.5pt);
 }
 
+/* not sure why this is here */
 .cm-embed-block .callout .callout-content li[data-task="*"]>.task-list-item-checkbox:checked::before,
 .cm-embed-block .callout .callout-content li[data-task="f"]>.task-list-item-checkbox:checked::before {
   transform: scale(1) translate(28%, 20%);
 }
 
-/* short/5min */
+/* s for short/5min ('- [s]') */
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="s"]::before,
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="5"]::before,
 .markdown-preview-view li[data-task="s"]>.task-list-item-checkbox:checked::before,
@@ -320,10 +321,10 @@ working selectors for checkboxes in callouts in live preview mode:
   color: white;
   position: absolute;
   /*transform: scale(1.1) translate(24%, 27%);*/
-  transform: scale(1.09) translate(27%, 20%);
+  transform: scale(1.13, 1.11) translate(25%, 25%);
 }
 
-/** optional **/
+/* + for optional ('- [+]') **/
 .markdown-source-view.mod-cm6 .task-list-item-checkbox[data-task="+"]::before,
 .markdown-preview-view li[data-task="+"]>.task-list-item-checkbox:checked::before,
 .cm-embed-block .callout .callout-content li[data-task="+"]>.task-list-item-checkbox:checked::before  {
@@ -332,5 +333,5 @@ working selectors for checkboxes in callouts in live preview mode:
   color: white;
   position: absolute;
   /*transform: scale(1.1) translate(24%, 27%);*/
-  transform: scale(1.38) translate(20%, 16%);
+  transform: scale(1.4) translate(20%, 22%);
 }
